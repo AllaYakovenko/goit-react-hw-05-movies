@@ -1,4 +1,4 @@
-import { List, Name, Character} from './Cast.styled';
+import { List, Name, Character, NotFoundCast} from './Cast.styled';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from 'services/api';
@@ -17,7 +17,7 @@ const Cast = () => {
 
     return (
         <>
-            {cast?.length === 0 && <p>We don't have any information about cast.</p>}
+            {cast?.length === 0 && <NotFoundCast>We don't have any information about cast.</NotFoundCast>}
             {cast &&
                 <List>
                     {cast.map(({ cast_id, character, name, profile_path }) => (

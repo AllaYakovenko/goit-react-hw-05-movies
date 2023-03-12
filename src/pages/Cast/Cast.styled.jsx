@@ -18,3 +18,7 @@ export const Name = styled.h4`
 export const Character = styled.p`
     width: 220px;
 `;
+
+export const NotFoundCast = styled.p`
+    text-align: center;
+`;

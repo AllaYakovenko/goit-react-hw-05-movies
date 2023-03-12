@@ -84,6 +84,7 @@ export const AdditionalTitle = styled.h4`
 export const AdditionalList = styled.ul`
     list-style: none;
     margin: 0;
+    padding: 0;
     text-align: center;
 
 `;
