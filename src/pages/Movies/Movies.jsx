@@ -3,24 +3,26 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import api from 'services/api';
 
 const Movies = () => {
+    const [query, setQuery] = useState('');
     const [movies, setMovies] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
     const [isError, setIsError] = useState(false);
 
-    const query = searchParams.get("query") ?? "";
+    const searchQuery  = searchParams.get('query');
     const location = useLocation();
 
     useEffect(() => {
-        if (query === '') {
-            return;
-        };
+    if (!searchQuery ) {
+      return;
+    }
 
         const getMovies = async () => {
             try {
-                let movies = await api.fetchMovieSearch(query);
+                let movies = await api.fetchMovieSearch(searchQuery );
                 movies = movies.map(movie => {
                     return movie = {
                         id: movie.id,
@@ -35,20 +37,22 @@ const Movies = () => {
         }
 
         getMovies();
-    }, [query])
+    }, [searchQuery])
+
+    const handleChange = ({ target: { value } }) => {
+        setQuery(value.trim());
+    };
 
     const handleSubmit = event => {
         event.preventDefault();
-        
-        const form = event.currentTarget;
-        setSearchParams({ query: form.elements.query.value.toLowerCase() });
 
+        setSearchParams({ query });
         if (query.trim() === '') {
-            return toast.info("Enter a keyword to search for a movie");
+            toast.error("Enter a keyword to search for a movie");
+            return;
         }
-
-        form.reset();
-    }
+        event.target.reset();
+    };
 
     return (
         <section>
@@ -62,6 +66,8 @@ const Movies = () => {
                     name="query"
                     autocomplete="off"
                     autoFocus
+                    value={query}
+                    onChange={handleChange}
                     placeholder="Search movies"
                 />
             </SearchForm>
@@ -78,7 +84,7 @@ const Movies = () => {
                 </ul>
             }
             
-            {isError && toast.error("We have error.")}
+            {isError && toast.error("We have error!")}
         </section>
     )
 }

@@ -50,7 +50,7 @@ export const MovieLink = styled(Link)`
     text-decoration: none;
     font-family: Segoe UI;
     margin-left: 8px;
-    color: #713333;
+    color: black;
     &:hover,
     &:focus {
         color: #ea332c;

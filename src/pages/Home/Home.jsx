@@ -1,6 +1,4 @@
-import {
-    TrendMovieLink
-} from "./Home.styled";
+import { TrendMovieLink } from "./Home.styled";
 import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import api from '../../services/api';
@@ -25,7 +23,6 @@ const Home = () => {
                 setIsError(true);
             }
         }
-
         getMoviesTrending();
     }, [])
 
@@ -44,8 +41,7 @@ const Home = () => {
                     ))}
                 </ul>
             }
-            
-            {isError && toast.error("We have error.")}
+            {isError && toast.error("We have error!")}
         </section>
 
     )

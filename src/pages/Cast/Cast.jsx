@@ -13,7 +13,7 @@ const Cast = () => {
         api.fetchMovieCast(movieId).then(setCast).catch(console.error);
     }, [movieId])
 
-    const poster = 'https://image.tmdb.org/t/p/w500';
+    const ImgUrl = 'https://image.tmdb.org/t/p/w500';
 
     return (
         <>
@@ -22,7 +22,7 @@ const Cast = () => {
                 <List>
                     {cast.map(({ cast_id, character, name, profile_path }) => (
                         <li key={cast_id}>
-                            {profile_path ? (<img src={poster + profile_path} alt={name} width={220} />) : (<img src={ImageNotFound} alt='Not found' width={220} height={330}/>)}
+                            {profile_path ? (<img src={ImgUrl + profile_path} alt={name} width={220} />) : (<img src={ImageNotFound} alt='Not found' width={220} height={330}/>)}
                             <Name>{name}</Name>
                             <Character>Character: {character}</Character>
                         </li>

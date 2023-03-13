@@ -18,7 +18,7 @@ const MovieDetails = () => {
         api.fetchMovieInfo(movieId).then(setMovie).catch(console.error);
     }, [movieId])
 
-    const posterPathBase = 'https://image.tmdb.org/t/p/w500';
+    const BaseImg = 'https://image.tmdb.org/t/p/w500';
 
     const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const MovieDetails = () => {
                     <Button type='button' onClick={()=>navigate(location?.state?.from ?? '/')}> Go back </Button>
                     <MovieContainer>
                         <Poster>
-                            <img src={posterPathBase + movie.poster_path} alt={movie.title} width={280}/>
+                            <img src={BaseImg + movie.poster_path} alt={movie.title} width={280}/>
                         </Poster>
                         <div>
                             <MovieTitle>{movie.title} ({movie.release_date.slice(0, 4)})</MovieTitle>
