@@ -1,24 +1,39 @@
 import {
-    Section, Button, Poster, MovieContainer, MovieTitle,
-    OverviewTitle, UserScores, OverviewText,
+    Section, Button, 
     AdditionalContainer, AdditionalTitle, AdditionalList, AdditionalItem, AdditionalLink
 } from './MoviesDetails.styled';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../../services/api';
-import { Suspense } from "react";
+import api from 'services/api';
+// import { Suspense } from "react";
 import { Loader } from "../../components/Loader/Loader";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import MovieCard from 'components/MovieCard/MovieCard';
+
 
 const MovieDetails = () => {
     const [movie, setMovie] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
     const { movieId } = useParams();
 
-    useEffect(() => {
-        api.fetchMovieInfo(movieId).then(setMovie).catch(console.error);
-    }, [movieId])
+     useEffect(() => {
+        setIsLoading(true);
 
-    const BaseImg = 'https://image.tmdb.org/t/p/w500';
+        const movieInfo = async () => {
+            try {
+                const data = await api.fetchMovieInfo(movieId);
+                setMovie(data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        movieInfo();
+    }, [movieId]);
 
     const navigate = useNavigate();
 
@@ -29,19 +44,7 @@ const MovieDetails = () => {
             {movie &&
                 <Section>
                     <Button type='button' onClick={()=>navigate(location?.state?.from ?? '/')}> Go back </Button>
-                    <MovieContainer>
-                        <Poster>
-                            <img src={BaseImg + movie.poster_path} alt={movie.title} width={280}/>
-                        </Poster>
-                        <div>
-                            <MovieTitle>{movie.title} ({movie.release_date.slice(0, 4)})</MovieTitle>
-                            <UserScores>User scores: {Math.ceil(movie.vote_average*10)}%</UserScores>
-                            <OverviewTitle>Overview</OverviewTitle>
-                            <OverviewText>{movie.overview}</OverviewText>
-                            <OverviewTitle>Genres</OverviewTitle>
-                            <OverviewText>{movie.genres.map(genre => genre.name).join(', ')}</OverviewText>
-                        </div>
-                    </MovieContainer>
+                    <MovieCard movie={movie}/>
                     <AdditionalContainer>
                         <AdditionalTitle>Additional information</AdditionalTitle>
                         <AdditionalList>
@@ -53,9 +56,11 @@ const MovieDetails = () => {
                             </AdditionalItem>
                         </AdditionalList>
                     </AdditionalContainer>
-                    <Suspense fallback={<Loader />}>
+                    {/* <Suspense fallback={<Loader />}> */}
+                        {isLoading && <Loader />}
+                        {error && toast.error('Please wait..')}
                         <Outlet />
-                    </Suspense>
+                    {/* </Suspense> */}
                 </Section>
             }
         </>
