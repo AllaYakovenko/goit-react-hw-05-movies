@@ -1,7 +1,9 @@
-import { SearchForm, SearchButton, SearchInput, MovieLink} from "./Movies.styled";
+import { SearchForm, SearchButton, SearchInput} from "./Movies.styled";
 import { useState, useEffect } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams} from 'react-router-dom';
 import { Loader } from "../../components/Loader/Loader";
+import MovieList from 'components/MovieList/MovieList';
+
 import { FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,34 +18,55 @@ const Movies = () => {
 
 
     const searchQuery  = searchParams.get('query');
-    const location = useLocation();
+    // const location = useLocation();
+
+    // useEffect(() => {
+    // setIsLoading(true);
+
+    // if (!searchQuery ) {
+    //   return;
+    // }
+        // const getMovies = async () => {
+        //     try {
+        //         let movies = await api.fetchMovieSearch(searchQuery );
+        //         movies = movies.map(movie => {
+        //             return movie = {
+        //                 id: movie.id,
+        //                 title: movie.title,
+        //             }
+        //         });
+        //         setMovies(movies);
+        //     } catch (error) {
+        //         console.log(error);
+        //         setIsError(true);
+        //     } finally {
+        //         setIsLoading(false);
+        //     }
+        // }
+
+    //     getMovies();
+    // }, [searchQuery])
 
     useEffect(() => {
-    setIsLoading(true);
-
     if (!searchQuery ) {
       return;
     }
-        const getMovies = async () => {
+
+            const getMovies = async () => {
+                setIsLoading(true);
+
             try {
-                let movies = await api.fetchMovieSearch(searchQuery );
-                movies = movies.map(movie => {
-                    return movie = {
-                        id: movie.id,
-                        title: movie.title,
-                    }
-                });
-                setMovies(movies);
+                const data = await api.fetchMovieSearch(searchQuery);
+                setMovies(data);
             } catch (error) {
-                console.log(error);
-                setIsError(true);
+                setIsError(error.message);
             } finally {
                 setIsLoading(false);
             }
-        }
-
+        };
         getMovies();
-    }, [searchQuery])
+    }, [searchQuery]);
+
 
     const handleChange = ({ target: { value } }) => {
         setQuery(value.trim());
@@ -52,11 +75,14 @@ const Movies = () => {
     const handleSubmit = event => {
         event.preventDefault();
 
-        setSearchParams({ query });
+        console.log(query);
         if (query.trim() === '') {
-            toast.error("Enter a keyword to search for a movie");
+            toast.warn("Enter a keyword to search for a movie", {
+                autoClose: 3000,
+            });
             return;
         }
+        setSearchParams({ query });
         event.target.reset();
     };
 
@@ -78,7 +104,7 @@ const Movies = () => {
                 />
             </SearchForm>
 
-            {movies?.length !== 0 &&
+            {/* {movies?.length !== 0 &&
                 <ul>
                     {movies?.map(({ id, title}) => (
                         <li key={id}>
@@ -88,9 +114,11 @@ const Movies = () => {
                         </li>
                     ))}
                 </ul>
-            }
+            } */}
             {isLoading && <Loader />}
             {isError && toast.error("We have error!")}
+
+            {movies && <MovieList items={movies} />}
         </section>
     )
 }
