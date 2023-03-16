@@ -1,12 +1,8 @@
-import {
-    Section, Button, 
-    AdditionalContainer, AdditionalTitle, AdditionalList, AdditionalItem, AdditionalLink
-} from './MoviesDetails.styled';
+import { Section, Button, AdditionalContainer, AdditionalTitle, AdditionalList, AdditionalItem, AdditionalLink } from './MoviesDetails.styled';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from 'services/api';
-// import { Suspense } from "react";
 import { Loader } from "../../components/Loader/Loader";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -56,11 +52,9 @@ const MovieDetails = () => {
                             </AdditionalItem>
                         </AdditionalList>
                     </AdditionalContainer>
-                    {/* <Suspense fallback={<Loader />}> */}
                         {isLoading && <Loader />}
                         {error && toast.error('Please wait..')}
                         <Outlet />
-                    {/* </Suspense> */}
                 </Section>
             }
         </>
