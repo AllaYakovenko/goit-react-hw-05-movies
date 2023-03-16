@@ -45,7 +45,6 @@ const Movies = () => {
     const handleSubmit = event => {
         event.preventDefault();
 
-        console.log(query);
         if (query.trim() === '') {
             toast.warn("Enter a keyword to search for a movie", {
                 autoClose: 3000,
