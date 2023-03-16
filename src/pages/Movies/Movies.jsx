@@ -1,6 +1,7 @@
 import { SearchForm, SearchButton, SearchInput, MovieLink} from "./Movies.styled";
 import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
+import { Loader } from "../../components/Loader/Loader";
 import { FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,15 +12,18 @@ const Movies = () => {
     const [movies, setMovies] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
     const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const searchQuery  = searchParams.get('query');
     const location = useLocation();
 
     useEffect(() => {
+    setIsLoading(true);
+
     if (!searchQuery ) {
       return;
     }
-
         const getMovies = async () => {
             try {
                 let movies = await api.fetchMovieSearch(searchQuery );
@@ -33,6 +37,8 @@ const Movies = () => {
             } catch (error) {
                 console.log(error);
                 setIsError(true);
+            } finally {
+                setIsLoading(false);
             }
         }
 
@@ -83,7 +89,7 @@ const Movies = () => {
                     ))}
                 </ul>
             }
-            
+            {isLoading && <Loader />}
             {isError && toast.error("We have error!")}
         </section>
     )

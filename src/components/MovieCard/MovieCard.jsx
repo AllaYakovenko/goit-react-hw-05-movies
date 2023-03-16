@@ -34,7 +34,5 @@ MovieCard.propTypes = {
         title: PropTypes.string.isRequired,
         release_date: PropTypes.string.isRequired,
         overview: PropTypes.string.isRequired,
-        vote_average: PropTypes.string.isRequired,
-        genres: PropTypes.string.isRequired,
     }),
 };
