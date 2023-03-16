@@ -16,42 +16,12 @@ const Movies = () => {
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-
     const searchQuery  = searchParams.get('query');
-    // const location = useLocation();
-
-    // useEffect(() => {
-    // setIsLoading(true);
-
-    // if (!searchQuery ) {
-    //   return;
-    // }
-        // const getMovies = async () => {
-        //     try {
-        //         let movies = await api.fetchMovieSearch(searchQuery );
-        //         movies = movies.map(movie => {
-        //             return movie = {
-        //                 id: movie.id,
-        //                 title: movie.title,
-        //             }
-        //         });
-        //         setMovies(movies);
-        //     } catch (error) {
-        //         console.log(error);
-        //         setIsError(true);
-        //     } finally {
-        //         setIsLoading(false);
-        //     }
-        // }
-
-    //     getMovies();
-    // }, [searchQuery])
 
     useEffect(() => {
     if (!searchQuery ) {
       return;
     }
-
             const getMovies = async () => {
                 setIsLoading(true);
 
@@ -104,21 +74,9 @@ const Movies = () => {
                 />
             </SearchForm>
 
-            {/* {movies?.length !== 0 &&
-                <ul>
-                    {movies?.map(({ id, title}) => (
-                        <li key={id}>
-                            <MovieLink state={{from: location}} to={`${id}`}>
-                                {title}
-                            </MovieLink>
-                        </li>
-                    ))}
-                </ul>
-            } */}
             {isLoading && <Loader />}
             {isError && toast.error("We have error!")}
-
-            {movies && <MovieList items={movies} />}
+            {movies && <MovieList movies={movies} />}
         </section>
     )
 }

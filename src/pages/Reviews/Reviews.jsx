@@ -31,7 +31,7 @@ const Reviews = () => {
     return (
         <>
             {isLoading && <Loader />}
-            {error && <p>ERROR!!!</p>}
+            {error && <p>We have error!</p>}
             {reviews?.length === 0 && <NotFoundText>We don't have any reviews for this movie.</NotFoundText>}
             {reviews &&
                 <List>

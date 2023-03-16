@@ -1,13 +1,9 @@
-import {
-    Poster, MovieContainer, MovieTitle,
-    OverviewTitle, UserScores, OverviewText
-} from '../../pages/MoviesDetails/MoviesDetails.styled';
+import { Poster, MovieContainer, MovieTitle, OverviewTitle, UserScores, OverviewText } from './MovieCard.styled';
 import PropTypes from 'prop-types';
 
 const MovieCard = ({ movie }) => {
   
     const BaseImg = 'https://image.tmdb.org/t/p/w500';
-
 
     const { poster_path, title, release_date, overview, vote_average, genres } = movie;
     return (
